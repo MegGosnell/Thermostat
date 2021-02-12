@@ -17,6 +17,44 @@
     </section>
     <script src="src/thermostat.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script>
+          $(document).ready(function() {
+      var thermostat = new Thermostat();
+      updateTemperature();
+    
+      $('#temperature-up').click(function() {
+        thermostat.up();
+        updateTemperature();
+      });
+    
+      $('#temperature-down').click(function() {
+        thermostat.down();
+        updateTemperature();
+      });
+    
+      $('#temperature-reset').click(function() {
+        thermostat.reset();
+        updateTemperature();
+      });
+    
+      $('#powersaving-on').click(function() {
+        thermostat.setPowerSavingModeOn();
+        $('#power-saving').text
+        ('on')
+        updateTemperature() ; 
+      })
+    
+      $('#powersaving-off').click(function() {
+        thermostat.setPowerSavingModeOff();
+        $('#power-saving').text('off')
+        updateTemperature();
+      })
+    
+      function updateTemperature() {
+        $('#temperature').text(thermostat.temperature);
+      };
+    });
+    </script>
   </body>
 </html>
 

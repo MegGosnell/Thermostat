@@ -1,70 +1,56 @@
-'use strict'; 
+class Thermostat {
 
-class Thermostat{
-    constructor() { 
-        this.DEFAULT_TEMPERATURE = 20;
-        this.currentTemperature = this.DEFAULT_TEMPERATURE;
-        this.MINIMUM_TEMPERATURE = 10;
-        this.powerSavingMode = true;
-        this.MAXIMUM_TEMP_PSM_ON = 25;
-        this.MAXIMUM_TEMP_PSM_OFF = 32;
-        this.MEDIUM_ENERGY_USAGE_LIMIT = 18;
-        this.HIGH_ENERGY_USAGE_LIMIT = 25;
-    };
-    
-    checkTemp(){
-        return this.currentTemperature;
-    };
+  constructor(setTemp = 20) {
+    this.tempy = setTemp;
+    this._powerSavingModeOn = true;
+  }
 
-    resetTemp(){
-        this.currentTemperature = this.DEFAULT_TEMPERATURE;
+  isPowerSavingModeOn() {
+    return this._powerSavingModeOn;
+  }
+
+  setPowerSavingModeOn() {
+    this._powerSavingModeOn = true;
+  }
+
+  setPowerSavingModeOff() {
+    this._powerSavingModeOn = true;
+  }
+
+  temp() {
+    return this.tempy;
+  }
+
+  up() {
+    const maximumTemp = this._powerSavingModeOn ? 25 : 32 ;
+    if(this.tempy < maximumTemp) {
+      this.tempy += 1;
+    } else {
+      throw new Error ("Too hot!")
     }
+  }
 
-    raiseTemp(){
-        if (this.isMaximumTemp()) {
-            throw new Error('maximum temperature reached');
-        }
-     this.currentTemperature += 1;
+  down() {
+    const minimumTemp = 10;
+    if(this.tempy > minimumTemp){
+      this.tempy -= 1;
+    } else {
+      throw new Error ('Too cold')
     }
+  }
 
-    decreaseTemp(){
-       if (this.isMinimumTemp()) {
-           throw new Error('Minimum temperature reached');
-       }
-       this.currentTemperature -= 1;
+  reset() {
+    this.tempy = 20;
+  }
+
+  energyUsage() {
+    if (this.temp() < 18) {
+      return 'low-usage';
+    } else if (this.temp() <= 25) {
+      return 'medium-usage';
+    } else {
+      return 'high-usage';
     }
+  }
 
-    checkPowerMode(){
-        return this.powerSavingMode;
-    };
-
-    powerModeOff(){
-        this.powerSavingMode = false;
-    }
-
-    powerModeOn(){
-        this.powerSavingMode = true;
-    }
-
-    isMaximumTemp() {
-        if (this.checkPowerMode() === false) { 
-            return this.currentTemperature === this.MAXIMUM_TEMP_PSM_OFF;
-        }
-        return this.currentTemperature === this.MAXIMUM_TEMP_PSM_ON;
-    }
-
-    isMinimumTemp(){
-        return this.currentTemperature === this.MINIMUM_TEMPERATURE;
-    };
-
-    energyUsage() {
-        if (this.currentTemperature < this.MEDIUM_ENERGY_USAGE_LIMIT) {
-            return 'low-usage';
-        }
-        if (this.currentTemperature <= this.HIGH_ENERGY_USAGE_LIMIT) {
-            return 'medium-usage'; 
-        }
-        return 'high-usage'
-    }
-};
-
+}
